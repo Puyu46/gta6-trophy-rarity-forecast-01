@@ -14,14 +14,8 @@ Exophase at 2026-11-26T00:00Z, as five quantiles (5%, 25%, 50%, 75%, 95%).
   no network, no clock. Reads every `<id>.in` in `MAKEFUN_INPUT_DIR` (or
   `/input`), writes `<id>.out` to `MAKEFUN_OUTPUT_DIR` (or `/output`).
 - `score.py` — local scorer: the pinball loss on the logit scale exactly as
-  `RULES.txt` defines it, plus typical miss and 90% coverage.
-- `validate.py` — local validation harness (practice cases, a real 33-hour
-  backtest, a synthetic final-like case, contract checks).
-- `validation/` — validation fixtures (reconstructed practice answers, the
-  20 Nov Exophase snapshot, the backtest case).
-- `reference-baseline.py` — the kit's starter (house baseline), kept for
-  comparison only; `main.py` is an independent implementation.
-- `RULES.txt`, `LICENSE` — from the kit (LICENSE untouched).
+  the competition rules define it, plus typical miss and 90% coverage.
+- `LICENSE` — from the kit (untouched).
 
 ## The model
 
@@ -74,7 +68,7 @@ night and at 42,228 players alike) is forecast to stay at 100%.
   ~1.7, Chapter 3 ~1.2, Chapter 4 ~1.0. Everything else sits near 0
   (holders frozen at the launch-night counts).
 
-## Local validation results (`python3 validate.py`)
+## Local validation results
 
 Practice answers are not shipped in the kit, so they were reconstructed
 from the published refresh totals (3,868 players, 4,276 trophies earned):
@@ -82,7 +76,7 @@ trophy 2 stays at 100% (3,868 holders) and the other 54 trophies share the
 remaining 408 holders, with the 103 net new non-intro holdings allocated
 with weights `count**k`. The family spans k=1 (proportional) to k=8
 (strongly concentrated on the easiest trophies); the house baseline scores
-1.40–1.62 across it, matching the ~1.51 stated in `RULES.txt`, which
+1.40–1.62 across it, matching the ~1.51 stated in the competition rules, which
 validates the reconstruction's scale. The central variant k=4 (baseline
 1.48) is the closest to the stated figure. In short: the model scores
 roughly 13x better than the house baseline on the practice cases (loss
@@ -116,6 +110,4 @@ per case), intro trophy ~100%, platinum ~0.1%.
 
 ```sh
 mkdir -p out && MAKEFUN_INPUT_DIR=input MAKEFUN_OUTPUT_DIR=out python3 main.py
-python3 validate.py            # full local validation (practice + backtest)
-python3 score.py out/p00.out validation/answers_practice_k4.json
 ```
